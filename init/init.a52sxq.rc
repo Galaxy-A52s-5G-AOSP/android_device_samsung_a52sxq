@@ -157,19 +157,5 @@ service heimdalld /system/bin/heimdalld
 on property:ro.boot.carrierid=MXO
     setprop ssu.support 1
 
-# some priv-apps of SPR bind mount to TMB priv-apps
-on post-fs-data && property:ro.csc.sales_code=TMB
-    umount /system/carrier
-    mkdir /mnt/temp
-    mount none /system/carrier/SPR /mnt/temp bind
-    mount none /system/carrier/TMB /system/carrier bind
-    mount none /mnt/temp/priv-app/MobileID /system/carrier/priv-app/MobileID bind
-    mount none /mnt/temp/priv-app/CarrierDeviceManager /system/carrier/priv-app/CarrierDeviceManager bind
-    mount none /mnt/temp/priv-app/MobileInstaller /system/carrier/priv-app/MobileInstaller bind
-    mount none /mnt/temp/priv-app/SprintAndroidExtension2 /system/carrier/priv-app/SprintAndroidExtension2 bind
-    mount none /mnt/temp/priv-app/SprintHub /system/carrier/priv-app/SprintHub bind
-    umount /mnt/temp
-    rmdir /mnt/temp
-
 on property:sys.sysctl.zram_balance_ratio=*
     write /sys/module/zram/parameters/zram_balance_ratio ${sys.sysctl.zram_balance_ratio}
